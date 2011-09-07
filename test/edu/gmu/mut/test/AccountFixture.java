@@ -112,29 +112,36 @@ public class AccountFixture {
 	
 	
 	
-	public static Account get100DollarSpenderAccount(){
-		Calendar regDate;
-		Calendar visitDate;
-		ArrayList<Purchase> purchases ;
-		purchases = new ArrayList();
-		Purchase p = new Purchase("Blues", new BigDecimal(100.00), new GregorianCalendar(2010,Calendar.NOVEMBER,24));
-		purchases.add(p);
-		regDate = new GregorianCalendar(2011,Calendar.MARCH,15);
-		visitDate = new GregorianCalendar(2011,Calendar.MARCH,20);
-		return Account.newInstance("100$_bill", "100$_test@if.io", regDate, visitDate, purchases );
-	}
-	
 	public static Account getNewAccount(){
-		Calendar regDate;
-		Calendar visitDate;
+		Calendar regDate = Calendar.getInstance();
+		regDate.add(Calendar.DATE, -29);
+		Calendar visitDate = Calendar.getInstance();
 		ArrayList<Purchase> purchases ;
 		purchases = new ArrayList();
-		regDate = new GregorianCalendar(2011,Calendar.MARCH,15);
-		visitDate = new GregorianCalendar(2011,Calendar.MARCH,20);
 		return Account.newInstance("new test", "new_test@if.io", regDate, visitDate, purchases );
 	}
 
+	public static Account getOldAccountNoPurchasesRecentVisitor(){
+		Calendar regDate = Calendar.getInstance();
+		regDate.add(Calendar.DATE, -31);
+		Calendar visitDate = Calendar.getInstance();
+		visitDate.add(Calendar.DATE, -29);
+		ArrayList<Purchase> purchases ;
+		purchases = new ArrayList();
+		return Account.newInstance("new test", "new_test@if.io", regDate, visitDate, purchases );
+	}
 	
+	public static Account getOver100DollarInPastYearSpenderAccount(){
+		Calendar regDate = Calendar.getInstance();
+		regDate.add(Calendar.YEAR, -1);
+		Calendar visitDate = Calendar.getInstance();
+		visitDate.add(Calendar.DATE, -29);
+		ArrayList<Purchase> purchases ;
+		purchases = new ArrayList();
+		Purchase p = new Purchase("Blues", new BigDecimal(100.01), visitDate);
+		purchases.add(p);
+		return Account.newInstance("100$_bill", "100$_test@if.io", regDate, visitDate, purchases );
+	}
 	
 	public static Account getBasicAccount(){
 		Calendar regDate;
