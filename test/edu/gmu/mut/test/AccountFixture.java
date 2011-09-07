@@ -84,7 +84,7 @@ public class AccountFixture {
 	
 	/**
 	 * 
-	 * Given a int representing a number of purches, this generates a psuedo-random set 
+	 * Given a int representing a number of purchases, this generates a psuedo-random set 
 	 * of purchases for an account.  Change the fixture class static members for more
 	 * variation.  Note, that being random, this may not cover desired inputs for your tests.
 	 * 
