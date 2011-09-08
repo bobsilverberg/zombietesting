@@ -109,9 +109,19 @@ public class Account {
 		Calendar today = Calendar.getInstance();
 		Calendar dateLimit = Calendar.getInstance();
 		dateLimit.add(Calendar.DATE, -1*ageInDays);
-		return dateRegistered.before(dateLimit) && getPurchaseCount(today, dateLimit) >= purchaseCount;
+		return dateRegistered.before(dateLimit) && getPurchaseCount() >= purchaseCount;
 	}
 	
+	/**
+	 * Gets the number of purchases overall
+	 *
+	 * @return the number of purchases overall
+	 */
+	public int getPurchaseCount() {
+		
+		return purchaseHistory.getPurchaseCount();
+	}
+
 	/**
 	 * Gets the number of purchases over a date range.
 	 *
@@ -121,7 +131,7 @@ public class Account {
 		
 		return purchaseHistory.getPurchaseCount(startDate, endDate);
 	}
-
+	
 	/**
 	 * Gets the total amount of all purchases over a date range.
 	 *

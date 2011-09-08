@@ -127,6 +127,14 @@ public class AccountFixture {
 		return getAccountWithOnePurchase(new BigDecimal(30), purchaseDate);
 	}
 	
+	public static Account getVIPAccount() {
+		Calendar regDate = Calendar.getInstance();
+		Calendar visitDate = Calendar.getInstance();
+		regDate.add(Calendar.YEAR, -1);
+		PurchaseHistory purchases = PurchaseHistoryFixture.generateRandomPurchaseHistory(25) ;		
+		return Account.newInstance("test", "test@if.io", regDate, visitDate, purchases );
+	}
+
 	public static Account getBasicAccount(){
 		Calendar regDate;
 		Calendar visitDate;

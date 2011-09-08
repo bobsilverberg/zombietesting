@@ -50,9 +50,21 @@ public class AccountTest {
 	}
 	
 	@Test
-	public void isVIPShouldReturnTrueIfCustomerIsAVIP() {
+	public void isVIPShouldReturnTrueIfCustomerIsOverSpecifiedAgeAndHasEnoughPurchases() {
 		Account acct = AccountFixture.getVIPAccount();
 		assertEquals("isVIP", true, acct.isVIP(25,365));
+	}
+	
+	@Test
+	public void isVIPShouldReturnFalseIfCustomerIsOverSpecifiedAgeButDoesNotHaveEnoughPurchases() {
+		Account acct = AccountFixture.getVIPAccount();
+		assertEquals("isVIP", false, acct.isVIP(30,365));
+	}
+	
+	@Test
+	public void isVIPShouldReturnFalseIfCustomerIsLessThanSpecifiedAgedButDoesHaveEnoughPurchases() {
+		Account acct = AccountFixture.getVIPAccount();
+		assertEquals("isVIP", false, acct.isVIP(25,375));
 	}
 	
 	

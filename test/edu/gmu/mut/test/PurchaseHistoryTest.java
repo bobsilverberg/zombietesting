@@ -39,6 +39,12 @@ public class PurchaseHistoryTest {
 	}
 	
 	@Test
+	public void getPurchaseCountReturnsCountOfAllPurchases() {
+		PurchaseHistory ph = PurchaseHistoryFixture.getPurchasesTotalling100OverPastYear();
+		assertEquals("Purchase Count", 4, ph.getPurchaseCount());
+	}
+	
+	@Test
 	public void getPurchaseCountReturnsCountOfPurchasesOverSpecifiedTimeFrame() {
 		PurchaseHistory ph = PurchaseHistoryFixture.getPurchasesTotalling100OverPastYear();
 		Calendar startDate = Calendar.getInstance();

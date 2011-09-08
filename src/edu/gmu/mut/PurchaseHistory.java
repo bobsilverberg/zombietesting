@@ -55,8 +55,11 @@ public class PurchaseHistory {
 		return total;
 	}
 	
+	public int getPurchaseCount() {
+		return purchases.size();
+	}
+	
 	public int getPurchaseCount(Calendar startDate, Calendar endDate) {
-		// TODO Auto-generated method stub
 		int count = 0;
 		
 		for (int i = 0; i < purchases.size(); i++) {
