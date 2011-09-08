@@ -18,19 +18,13 @@ public class PurchaseHistoryTest {
 	@Test
 	public void purchaseHistoryCanBeCreated() {
 		PurchaseHistory ph = PurchaseHistoryFixture.getEmptyPurchaseHistory();
-		assertEquals("Total Amount Purchased", new BigDecimal(0), ph.getTotalAmount());
+		assertEquals("Number of purchases", 0, ph.getNumberOfPurchases());
 	}
 	
 	@Test
 	public void canAddAPurchaseToPurchaseHistory() {
 		PurchaseHistory ph = PurchaseHistoryFixture.generateRandomPurchaseHistory(2);
 		assertEquals("Number of purchases", 2, ph.getNumberOfPurchases());
-	}
-	
-	@Test
-	public void getTotalAmountReturnsTotalOfAllPurchases() {
-		PurchaseHistory ph = PurchaseHistoryFixture.getPurchasesTotalling100();
-		assertEquals("Total Amount Purchased", new BigDecimal(100), ph.getTotalAmount());
 	}
 	
 	@Test
