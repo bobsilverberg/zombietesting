@@ -21,7 +21,7 @@ public class Account {
 	private Calendar dateRegistered;
 	
 	/** The purchase history. */
-	private ArrayList purchaseHistory;
+	private PurchaseHistory purchaseHistory;
 
 	/**
 	 * Gets the name.
@@ -64,7 +64,7 @@ public class Account {
 	 *
 	 * @return the purchase history
 	 */
-	public ArrayList getPurchaseHistory() {
+	public PurchaseHistory getPurchaseHistory() {
 		return purchaseHistory;
 	}
 
@@ -84,7 +84,7 @@ public class Account {
 	 * @param purchases the purchases
 	 * @return the account
 	 */
-	public static Account newInstance(String name, String email, Calendar dateRegistered, Calendar lastVisitDate, ArrayList<Purchase> purchases) {
+	public static Account newInstance(String name, String email, Calendar dateRegistered, Calendar lastVisitDate, PurchaseHistory purchases) {
 		Account accnt = new Account();
 		accnt.name = name;
 		accnt.email = email;

@@ -8,79 +8,11 @@ import java.util.Random;
 
 import edu.gmu.mut.Account;
 import edu.gmu.mut.Purchase;
+import edu.gmu.mut.PurchaseHistory;
+import edu.gmu.mut.test.PurchaseHistoryFixture;
 
 public class AccountFixture {
 
-	
-	static String[] genres = { "Reggae", 
-								"Jazz", 
-								"Blues", 
-								"Rock", 
-								"Classical", 
-								"Punk", 
-								"Country", 
-								"Indie",
-								"Rap",
-								"Eclectic",
-								"Latin",
-								"Polka" };
-	
-	static BigDecimal[] prices = {  new BigDecimal( .99),
-									new BigDecimal( 1.99),
-									new BigDecimal( 2.99),
-									new BigDecimal( 3.99),
-									new BigDecimal( 4.99),
-									new BigDecimal( 5.99),
-									new BigDecimal( 6.99),
-									new BigDecimal( 7.99),
-									new BigDecimal( 9.99)
-								};
-	
-	static GregorianCalendar[] purchaseDates = {
-		new GregorianCalendar(2010, Calendar.JANUARY, 5),
-		new GregorianCalendar(2010, Calendar.JANUARY, 6),
-		new GregorianCalendar(2010, Calendar.FEBRUARY, 5),
-		new GregorianCalendar(2010, Calendar.FEBRUARY, 6),
-		new GregorianCalendar(2010, Calendar.MARCH, 5),
-		new GregorianCalendar(2010, Calendar.MARCH, 6),
-		new GregorianCalendar(2010, Calendar.APRIL, 5),
-		new GregorianCalendar(2010, Calendar.APRIL, 6),
-		new GregorianCalendar(2010, Calendar.MAY, 5),
-		new GregorianCalendar(2010, Calendar.MAY, 6),
-		new GregorianCalendar(2010, Calendar.JUNE, 5),
-		new GregorianCalendar(2010, Calendar.JUNE, 6),
-		new GregorianCalendar(2010, Calendar.JULY, 5),
-		new GregorianCalendar(2010, Calendar.JULY, 6),
-		new GregorianCalendar(2010, Calendar.AUGUST, 5),
-		new GregorianCalendar(2010, Calendar.AUGUST, 6),
-		new GregorianCalendar(2010, Calendar.SEPTEMBER, 5),
-		new GregorianCalendar(2010, Calendar.SEPTEMBER, 6),
-		new GregorianCalendar(2010, Calendar.OCTOBER, 5),
-		new GregorianCalendar(2010, Calendar.OCTOBER, 6),
-		new GregorianCalendar(2010, Calendar.NOVEMBER, 5),
-		new GregorianCalendar(2010, Calendar.NOVEMBER, 6),
-		new GregorianCalendar(2010, Calendar.DECEMBER, 5),
-		new GregorianCalendar(2010, Calendar.DECEMBER, 6),
-		new GregorianCalendar(2011, Calendar.JANUARY, 5),
-		new GregorianCalendar(2011, Calendar.JANUARY, 6),
-		new GregorianCalendar(2011, Calendar.FEBRUARY, 5),
-		new GregorianCalendar(2011, Calendar.FEBRUARY, 6),
-		new GregorianCalendar(2011, Calendar.MARCH, 5),
-		new GregorianCalendar(2011, Calendar.MARCH, 6),
-		new GregorianCalendar(2011, Calendar.APRIL, 5),
-		new GregorianCalendar(2011, Calendar.APRIL, 6),
-		new GregorianCalendar(2011, Calendar.MAY, 5),
-		new GregorianCalendar(2011, Calendar.MAY, 6),
-		new GregorianCalendar(2011, Calendar.JUNE, 5),
-		new GregorianCalendar(2011, Calendar.JUNE, 6),
-		new GregorianCalendar(2011, Calendar.JULY, 5),
-		new GregorianCalendar(2011, Calendar.JULY, 6),
-		new GregorianCalendar(2011, Calendar.AUGUST, 5),
-		new GregorianCalendar(2011, Calendar.AUGUST, 6)
-		
-	};
-	
-	
 	
 	/**
 	 * 
@@ -94,30 +26,18 @@ public class AccountFixture {
 	public static Account generateRandomAccount(int numberOfPurchases) {
 		Calendar regDate;
 		Calendar visitDate;
-		ArrayList<Purchase> purchases = new ArrayList<Purchase>() ;		
-		Random rand = new Random();
-		for(int i = 0; i < numberOfPurchases; i++){
-			String genre = genres[ rand.nextInt(genres.length-1) ];
-			BigDecimal price = prices[ rand.nextInt(prices.length-1) ];
-			Calendar purchaseDate = purchaseDates[ rand.nextInt( purchaseDates.length-1) ];
-			Purchase p = new Purchase(  genre, price, purchaseDate);
-			purchases.add(p);
-		}
-		
+		PurchaseHistory purchases = PurchaseHistoryFixture.generateRandomPurchaseHistory(numberOfPurchases) ;		
 		regDate = new GregorianCalendar(2009,Calendar.JANUARY,1);
 		visitDate = new GregorianCalendar(2011,Calendar.AUGUST,1);
 		return Account.newInstance("test", "test@if.io", regDate, visitDate, purchases );
 	}
 	
 	
-	
-	
 	public static Account getNewAccount(){
 		Calendar regDate = Calendar.getInstance();
 		regDate.add(Calendar.DATE, -29);
 		Calendar visitDate = Calendar.getInstance();
-		ArrayList<Purchase> purchases ;
-		purchases = new ArrayList();
+		PurchaseHistory purchases = new PurchaseHistory();
 		return Account.newInstance("new test", "new_test@if.io", regDate, visitDate, purchases );
 	}
 
@@ -125,29 +45,65 @@ public class AccountFixture {
 		Calendar regDate = Calendar.getInstance();
 		regDate.add(Calendar.DATE, -31);
 		Calendar visitDate = Calendar.getInstance();
-		visitDate.add(Calendar.DATE, -29);
-		ArrayList<Purchase> purchases ;
-		purchases = new ArrayList();
+		visitDate.add(Calendar.DATE, -1);
+		PurchaseHistory purchases = new PurchaseHistory();
 		return Account.newInstance("new test", "new_test@if.io", regDate, visitDate, purchases );
 	}
 	
-	public static Account getOver100DollarInPastYearSpenderAccount(){
+	public static Account getAccountWithOnePurchase(BigDecimal amount, Calendar purchaseDate){
 		Calendar regDate = Calendar.getInstance();
 		regDate.add(Calendar.YEAR, -1);
 		Calendar visitDate = Calendar.getInstance();
 		visitDate.add(Calendar.DATE, -29);
-		ArrayList<Purchase> purchases ;
-		purchases = new ArrayList();
-		Purchase p = new Purchase("Blues", new BigDecimal(100.01), visitDate);
+		PurchaseHistory purchases = new PurchaseHistory();
+		Purchase p = new Purchase("Blues", amount, purchaseDate);
 		purchases.add(p);
 		return Account.newInstance("100$_bill", "100$_test@if.io", regDate, visitDate, purchases );
+	}
+	
+	public static Account getNewAccountWithSmallPurchase() {
+		Calendar regDate = Calendar.getInstance();
+		regDate.add(Calendar.DATE, -29);
+		Calendar visitDate = Calendar.getInstance();
+		PurchaseHistory purchases = new PurchaseHistory();
+		Purchase p = new Purchase("Blues", new BigDecimal(1.00), visitDate);
+		purchases.add(p);
+		return Account.newInstance("new test", "new_test@if.io", regDate, visitDate, purchases );
+	}
+	
+	public static Account getOldAccountSmallPurchaseRecentVisitor(){
+		Calendar regDate = Calendar.getInstance();
+		regDate.add(Calendar.DATE, -31);
+		Calendar visitDate = Calendar.getInstance();
+		visitDate.add(Calendar.DATE, -1);
+		PurchaseHistory purchases = new PurchaseHistory();
+		Purchase p = new Purchase("Blues", new BigDecimal(1.00), visitDate);
+		purchases.add(p);
+		return Account.newInstance("new test", "new_test@if.io", regDate, visitDate, purchases );
+	}
+	
+	public static Account getOver100DollarInPreviousYearSpenderAccount(){
+		Calendar purchaseDate = Calendar.getInstance();
+		purchaseDate.add(Calendar.YEAR, -1);
+		return getAccountWithOnePurchase(new BigDecimal(100.01), purchaseDate);
+	}
+	
+	public static Account getOver100DollarInPastYearSpenderAccount(){
+		Calendar purchaseDate = Calendar.getInstance();
+		purchaseDate.add(Calendar.DATE, -29);
+		return getAccountWithOnePurchase(new BigDecimal(100.01), purchaseDate);
+	}
+	
+	public static Account get75DollarsInPastYearSpenderAccount() {
+		Calendar purchaseDate = Calendar.getInstance();
+		purchaseDate.add(Calendar.DATE, -29);
+		return getAccountWithOnePurchase(new BigDecimal(75), purchaseDate);
 	}
 	
 	public static Account getBasicAccount(){
 		Calendar regDate;
 		Calendar visitDate;
-		ArrayList<Purchase> purchases ;
-		purchases = new ArrayList();
+		PurchaseHistory purchases = new PurchaseHistory();
 		purchases.add( new Purchase("Reggae", new BigDecimal( .99), new GregorianCalendar(2011, Calendar.MARCH, 5)  ));
 		purchases.add( new Purchase("Reggae", new BigDecimal( 1.99), new GregorianCalendar(2011, Calendar.MARCH, 5)  ));
 		purchases.add( new Purchase("Jazz", new BigDecimal( 9.99), new GregorianCalendar(2011, Calendar.JANUARY, 5)  ));
@@ -167,6 +123,8 @@ public class AccountFixture {
 		visitDate = new GregorianCalendar(2011,Calendar.MARCH,1);
 		return Account.newInstance("test", "test@if.io", regDate, visitDate, purchases );
 	}
+
+
 
 	
 	

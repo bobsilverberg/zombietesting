@@ -51,6 +51,24 @@ public class PurchaseHistory {
 		return total;
 	}
 	
+	/**
+	 * Gets the total amount of all purchases over a date range.
+	 *
+	 * @return the total amount of all purchases over a date range
+	 */
+	public BigDecimal getTotalAmount(Calendar startDate, Calendar endDate) {
+		
+		BigDecimal total = new BigDecimal(0);
+
+		for (int i = 0; i < purchases.size(); i++) {
+			Purchase p = purchases.get(i);
+			if (startDate.before(p.getDateOfPurchase()) && endDate.after(p.getDateOfPurchase())) {
+				total = total.add(p.getPrice());
+			}
+		}
+		return total;
+	}
+	
 	
 	/**
 	 * Instantiates a new account.
