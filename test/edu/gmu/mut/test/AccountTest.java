@@ -49,5 +49,11 @@ public class AccountTest {
 		assertEquals("isRecentVisitor", false, acct.isRecentVisitor(0));
 	}
 	
+	@Test
+	public void isVIPShouldReturnTrueIfCustomerIsAVIP() {
+		Account acct = AccountFixture.getVIPAccount();
+		assertEquals("isVIP", true, acct.isVIP(25,365));
+	}
+	
 	
 }

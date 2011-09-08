@@ -101,6 +101,28 @@ public class Account {
 	}
 	
 	/**
+	 * Is VIP
+	 *
+	 * @return Is the customer a VIP
+	 */
+	public boolean isVIP(int purchaseCount, int ageInDays) {
+		Calendar today = Calendar.getInstance();
+		Calendar dateLimit = Calendar.getInstance();
+		dateLimit.add(Calendar.DATE, -1*ageInDays);
+		return dateRegistered.before(dateLimit) && getPurchaseCount(today, dateLimit) >= purchaseCount;
+	}
+	
+	/**
+	 * Gets the number of purchases over a date range.
+	 *
+	 * @return the number of purchases over a date range
+	 */
+	public int getPurchaseCount(Calendar startDate, Calendar endDate) {
+		
+		return purchaseHistory.getPurchaseCount(startDate, endDate);
+	}
+
+	/**
 	 * Gets the total amount of all purchases over a date range.
 	 *
 	 * @return the total amount of all purchases over a date range
@@ -109,7 +131,7 @@ public class Account {
 		
 		return purchaseHistory.getTotalAmount(startDate, endDate);
 	}
-
+	
 	/**
 	 * Compares the total amount of all purchases over a date range to a number.
 	 *

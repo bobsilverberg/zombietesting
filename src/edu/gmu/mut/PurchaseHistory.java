@@ -55,6 +55,19 @@ public class PurchaseHistory {
 		return total;
 	}
 	
+	public int getPurchaseCount(Calendar startDate, Calendar endDate) {
+		// TODO Auto-generated method stub
+		int count = 0;
+		
+		for (int i = 0; i < purchases.size(); i++) {
+			Purchase p = (Purchase) purchases.get(i);
+			if (startDate.before(p.getDateOfPurchase()) && endDate.after(p.getDateOfPurchase())) {
+				count ++;
+			}
+		}
+		return count;
+	}
+	
 	
 	/**
 	 * Instantiates a new purchase history.
@@ -62,5 +75,5 @@ public class PurchaseHistory {
 	public PurchaseHistory(){
 		this.purchases = new ArrayList();
 	}
-	
+
 }

@@ -38,4 +38,16 @@ public class PurchaseHistoryTest {
 		assertEquals("Total Amount Purchased", new BigDecimal(150), ph.getTotalAmount(startDate, endDate));
 	}
 	
+	@Test
+	public void getPurchaseCountReturnsCountOfPurchasesOverSpecifiedTimeFrame() {
+		PurchaseHistory ph = PurchaseHistoryFixture.getPurchasesTotalling100OverPastYear();
+		Calendar startDate = Calendar.getInstance();
+		Calendar endDate = Calendar.getInstance();
+		startDate.add(Calendar.YEAR, -1);
+		assertEquals("Purchase Count", 3, ph.getPurchaseCount(startDate, endDate));
+		startDate.add(Calendar.YEAR, -1);
+		endDate.add(Calendar.YEAR, -1);
+		assertEquals("Purchase Count", 1, ph.getPurchaseCount(startDate, endDate));
+	}
+	
 }
