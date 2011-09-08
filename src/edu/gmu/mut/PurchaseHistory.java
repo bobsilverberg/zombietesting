@@ -38,20 +38,6 @@ public class PurchaseHistory {
 	}
 	
 	/**
-	 * Gets the total amount of all purchases.
-	 *
-	 * @return the total amount of all purchases
-	 */
-	public BigDecimal getTotalAmount() {
-		
-		BigDecimal total = new BigDecimal(0);
-		for (int i = 0; i < purchases.size(); i++) {
-			total = total.add(((Purchase) purchases.get(i)).getPrice());
-		}
-		return total;
-	}
-	
-	/**
 	 * Gets the total amount of all purchases over a date range.
 	 *
 	 * @return the total amount of all purchases over a date range
@@ -71,10 +57,10 @@ public class PurchaseHistory {
 	
 	
 	/**
-	 * Instantiates a new account.
+	 * Instantiates a new purchase history.
 	 */
 	public PurchaseHistory(){
-		this.purchases = new ArrayList<Purchase>();
+		this.purchases = new ArrayList();
 	}
 	
 }

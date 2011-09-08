@@ -9,21 +9,15 @@ import edu.gmu.mut.Purchase;
 public class Loyalty {
 	
 	public static BigDecimal getDiscount(Account acct, Calendar startDate, Calendar endDate) {
-		Calendar thirtyDaysAgo = Calendar.getInstance();
-		Calendar oneWeekAgo = Calendar.getInstance();
 		Calendar today = Calendar.getInstance();
 		Calendar oneYearAgo = Calendar.getInstance();
-		thirtyDaysAgo.add(Calendar.DATE, -30);
-		oneWeekAgo.add(Calendar.DATE, -7);
 		oneYearAgo.add(Calendar.YEAR, -1);
 		
 		if (isNewAccountWithNoPurchases(acct)) {
 			return new BigDecimal(10);
-			
 		}
 		if (isOldAccountWithNoPurchasesAndRecentVisit(acct)) {
 			return new BigDecimal(10);
-			
 		}
 		if (acct.compareTotalPurchaseAmount(oneYearAgo, today, new BigDecimal(100)) == 1) {
 			return new BigDecimal(20);
