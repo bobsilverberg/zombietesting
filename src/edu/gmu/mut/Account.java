@@ -1,5 +1,6 @@
 package edu.gmu.mut;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -68,6 +69,56 @@ public class Account {
 		return purchaseHistory;
 	}
 
+	/**
+	 * Have there been any purchases?
+	 *
+	 * @return Have there been any purchases
+	 */
+	public boolean hasPurchases() {
+		return purchaseHistory.getNumberOfPurchases() != 0;
+	}
+
+	/**
+	 * Is new account
+	 *
+	 * @return Is it a new account
+	 */
+	public boolean isNewAccount(int ageInDays) {
+		Calendar dateLimit = Calendar.getInstance();
+		dateLimit.add(Calendar.DATE, -1*ageInDays);
+		return dateRegistered.after(dateLimit);
+	}
+	
+	/**
+	 * Recently visited
+	 *
+	 * @return Has the customer visited recently
+	 */
+	public boolean isRecentVisitor(int ageInDays) {
+		Calendar dateLimit = Calendar.getInstance();
+		dateLimit.add(Calendar.DATE, -1*ageInDays);
+		return dateOfLastVisit.after(dateLimit);
+	}
+	
+	/**
+	 * Gets the total amount of all purchases over a date range.
+	 *
+	 * @return the total amount of all purchases over a date range
+	 */
+	public BigDecimal getTotalPurchaseAmount(Calendar startDate, Calendar endDate) {
+		
+		return purchaseHistory.getTotalAmount(startDate, endDate);
+	}
+
+	/**
+	 * Compares the total amount of all purchases over a date range to a number.
+	 *
+	 * @return the result of the comparison of the total amount of all purchases over a date range to a number
+	 */
+	public int compareTotalPurchaseAmount(Calendar startDate, Calendar endDate, BigDecimal amount) {
+		
+		return purchaseHistory.getTotalAmount(startDate, endDate).compareTo(amount);
+	}
 	
 	/**
 	 * Instantiates a new account.

@@ -17,25 +17,41 @@ public class Loyalty {
 		oneWeekAgo.add(Calendar.DATE, -7);
 		oneYearAgo.add(Calendar.YEAR, -1);
 		
-		if (acct.getDateRegistered().after(thirtyDaysAgo) && acct.getPurchaseHistory().getNumberOfPurchases() == 0) {
+		if (isNewAccountWithNoPurchases(acct)) {
 			return new BigDecimal(10);
 			
 		}
-		if (acct.getDateRegistered().before(thirtyDaysAgo) && acct.getLastVisitDate().after(oneWeekAgo) && acct.getPurchaseHistory().getNumberOfPurchases() == 0) {
+		if (isOldAccountWithNoPurchasesAndRecentVisit(acct)) {
 			return new BigDecimal(10);
 			
 		}
-		if (acct.getPurchaseHistory().getTotalAmount(oneYearAgo, today).compareTo(new BigDecimal(100)) == 1) {
+		if (acct.compareTotalPurchaseAmount(oneYearAgo, today, new BigDecimal(100)) == 1) {
 			return new BigDecimal(20);
 		}
-		if (acct.getPurchaseHistory().getTotalAmount(oneYearAgo, today).compareTo(new BigDecimal(50)) == 1 && acct.getPurchaseHistory().getTotalAmount(oneYearAgo, today).compareTo(new BigDecimal(100)) == -1) {
+		if (acct.compareTotalPurchaseAmount(oneYearAgo, today, new BigDecimal(50)) == 1 && acct.compareTotalPurchaseAmount(oneYearAgo, today, new BigDecimal(100)) == -1) {
 			return new BigDecimal(15);
 		}
-		if (acct.getPurchaseHistory().getTotalAmount(oneYearAgo, today).compareTo(new BigDecimal(25)) == 1 && acct.getPurchaseHistory().getTotalAmount(oneYearAgo, today).compareTo(new BigDecimal(50)) == -1) {
+		if (acct.compareTotalPurchaseAmount(oneYearAgo, today, new BigDecimal(25)) == 1 && acct.compareTotalPurchaseAmount(oneYearAgo, today, new BigDecimal(50)) == -1) {
 			return new BigDecimal(10);
 		}
 		return new BigDecimal(5);
 		
 	}
 
+	private static boolean isNewAccountWithNoPurchases(Account acct) {
+		return isNewAccount(acct) && !acct.hasPurchases();
+	}
+	
+	private static boolean isOldAccountWithNoPurchasesAndRecentVisit(Account acct) {
+		return !isNewAccount(acct) && !acct.hasPurchases() && isRecentVisitor(acct);
+	}
+
+	private static boolean isNewAccount(Account acct) {
+		return acct.isNewAccount(30);
+	}
+
+	private static boolean isRecentVisitor(Account acct) {
+		return acct.isRecentVisitor(7);
+	}
+	
 }
