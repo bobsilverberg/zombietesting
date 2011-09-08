@@ -15,13 +15,6 @@ import edu.gmu.mut.Loyalty;
 public class LoyaltyTest {
 	
 	@Test
-	public void customerWhoSpentOver100InPreviousYearShouldGet5PctDiscount() {
-		Account acct = AccountFixture.get75DollarsInPastYearSpenderAccount();
-		BigDecimal discount = Loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,1), new GregorianCalendar(2011,Calendar.SEPTEMBER,30));
-		assertEquals("Discount", new BigDecimal(5), discount);
-	}
-	
-	@Test
 	public void newCustomerNoPurchasesShouldGet10PctDiscount() {
 		Account acct = AccountFixture.getNewAccount();
 		BigDecimal discount = Loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,1), new GregorianCalendar(2011,Calendar.SEPTEMBER,30));
@@ -43,6 +36,13 @@ public class LoyaltyTest {
 	}
 	
 	@Test
+	public void oldCustomerWithNoPurchasesNotRecentVisitorShouldGet5PctDiscount() {
+		Account acct = AccountFixture.getOldAccountNoPurchasesNotRecentVisitor();
+		BigDecimal discount = Loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,1), new GregorianCalendar(2011,Calendar.SEPTEMBER,30));
+		assertEquals("Discount", new BigDecimal(5), discount);
+	}
+	
+	@Test
 	public void oldCustomerWithSmallPurchasesRecentVisitorShouldGet5PctDiscount() {
 		Account acct = AccountFixture.getOldAccountSmallPurchaseRecentVisitor();
 		BigDecimal discount = Loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,1), new GregorianCalendar(2011,Calendar.SEPTEMBER,30));
@@ -57,10 +57,38 @@ public class LoyaltyTest {
 	}
 	
 	@Test
+	public void customerWhoSpentOver100InPreviousYearShouldGet5PctDiscount() {
+		Account acct = AccountFixture.getOver100DollarInPreviousYearSpenderAccount();
+		BigDecimal discount = Loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,1), new GregorianCalendar(2011,Calendar.SEPTEMBER,30));
+		assertEquals("Discount", new BigDecimal(5), discount);
+	}
+	
+	@Test
 	public void customerWhoSpentBetween50And100InPastYearShouldGet15PctDiscount() {
 		Account acct = AccountFixture.get75DollarsInPastYearSpenderAccount();
 		BigDecimal discount = Loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,1), new GregorianCalendar(2011,Calendar.SEPTEMBER,30));
 		assertEquals("Discount", new BigDecimal(15), discount);
+	}
+	
+	@Test
+	public void customerWhoSpentBetween50And100InPreviousYearShouldGet5PctDiscount() {
+		Account acct = AccountFixture.get75DollarsInPreviousYearSpenderAccount();
+		BigDecimal discount = Loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,1), new GregorianCalendar(2011,Calendar.SEPTEMBER,30));
+		assertEquals("Discount", new BigDecimal(5), discount);
+	}
+	
+	@Test
+	public void customerWhoSpentBetween25And50InPastYearShouldGet10PctDiscount() {
+		Account acct = AccountFixture.get30DollarsInPastYearSpenderAccount();
+		BigDecimal discount = Loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,1), new GregorianCalendar(2011,Calendar.SEPTEMBER,30));
+		assertEquals("Discount", new BigDecimal(10), discount);
+	}
+	
+	@Test
+	public void customerWhoSpentBetween25And50InPreviousYearShouldGet5PctDiscount() {
+		Account acct = AccountFixture.get30DollarsInPreviousYearSpenderAccount();
+		BigDecimal discount = Loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,1), new GregorianCalendar(2011,Calendar.SEPTEMBER,30));
+		assertEquals("Discount", new BigDecimal(5), discount);
 	}
 	
 	

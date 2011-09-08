@@ -71,6 +71,15 @@ public class AccountFixture {
 		return Account.newInstance("new test", "new_test@if.io", regDate, visitDate, purchases );
 	}
 	
+	public static Account getOldAccountNoPurchasesNotRecentVisitor() {
+		Calendar regDate = Calendar.getInstance();
+		regDate.add(Calendar.DATE, -31);
+		Calendar visitDate = Calendar.getInstance();
+		visitDate.add(Calendar.DATE, -8);
+		PurchaseHistory purchases = new PurchaseHistory();
+		return Account.newInstance("new test", "new_test@if.io", regDate, visitDate, purchases );
+	}
+	
 	public static Account getOldAccountSmallPurchaseRecentVisitor(){
 		Calendar regDate = Calendar.getInstance();
 		regDate.add(Calendar.DATE, -31);
@@ -82,15 +91,15 @@ public class AccountFixture {
 		return Account.newInstance("new test", "new_test@if.io", regDate, visitDate, purchases );
 	}
 	
-	public static Account getOver100DollarInPreviousYearSpenderAccount(){
-		Calendar purchaseDate = Calendar.getInstance();
-		purchaseDate.add(Calendar.YEAR, -1);
-		return getAccountWithOnePurchase(new BigDecimal(100.01), purchaseDate);
-	}
-	
 	public static Account getOver100DollarInPastYearSpenderAccount(){
 		Calendar purchaseDate = Calendar.getInstance();
 		purchaseDate.add(Calendar.DATE, -29);
+		return getAccountWithOnePurchase(new BigDecimal(100.01), purchaseDate);
+	}
+	
+	public static Account getOver100DollarInPreviousYearSpenderAccount(){
+		Calendar purchaseDate = Calendar.getInstance();
+		purchaseDate.add(Calendar.YEAR, -1);
 		return getAccountWithOnePurchase(new BigDecimal(100.01), purchaseDate);
 	}
 	
@@ -98,6 +107,24 @@ public class AccountFixture {
 		Calendar purchaseDate = Calendar.getInstance();
 		purchaseDate.add(Calendar.DATE, -29);
 		return getAccountWithOnePurchase(new BigDecimal(75), purchaseDate);
+	}
+	
+	public static Account get75DollarsInPreviousYearSpenderAccount() {
+		Calendar purchaseDate = Calendar.getInstance();
+		purchaseDate.add(Calendar.YEAR, -1);
+		return getAccountWithOnePurchase(new BigDecimal(75), purchaseDate);
+	}
+	
+	public static Account get30DollarsInPastYearSpenderAccount() {
+		Calendar purchaseDate = Calendar.getInstance();
+		purchaseDate.add(Calendar.DATE, -29);
+		return getAccountWithOnePurchase(new BigDecimal(30), purchaseDate);
+	}
+	
+	public static Account get30DollarsInPreviousYearSpenderAccount() {
+		Calendar purchaseDate = Calendar.getInstance();
+		purchaseDate.add(Calendar.YEAR, -1);
+		return getAccountWithOnePurchase(new BigDecimal(30), purchaseDate);
 	}
 	
 	public static Account getBasicAccount(){
@@ -123,6 +150,8 @@ public class AccountFixture {
 		visitDate = new GregorianCalendar(2011,Calendar.MARCH,1);
 		return Account.newInstance("test", "test@if.io", regDate, visitDate, purchases );
 	}
+
+
 
 
 
