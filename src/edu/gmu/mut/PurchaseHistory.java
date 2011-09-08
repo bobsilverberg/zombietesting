@@ -11,7 +11,7 @@ import edu.gmu.mut.Purchase;
 public class PurchaseHistory {
 
 	/** The purchase history. */
-	private ArrayList<Purchase> purchases;
+	private ArrayList purchases;
 
 	/** Adds a purchase to the history */
 	public void add(Purchase p) {
@@ -46,7 +46,7 @@ public class PurchaseHistory {
 		
 		BigDecimal total = new BigDecimal(0);
 		for (int i = 0; i < purchases.size(); i++) {
-			total = total.add(purchases.get(i).getPrice());
+			total = total.add(((Purchase) purchases.get(i)).getPrice());
 		}
 		return total;
 	}
@@ -61,7 +61,7 @@ public class PurchaseHistory {
 		BigDecimal total = new BigDecimal(0);
 
 		for (int i = 0; i < purchases.size(); i++) {
-			Purchase p = purchases.get(i);
+			Purchase p = (Purchase) purchases.get(i);
 			if (startDate.before(p.getDateOfPurchase()) && endDate.after(p.getDateOfPurchase())) {
 				total = total.add(p.getPrice());
 			}
