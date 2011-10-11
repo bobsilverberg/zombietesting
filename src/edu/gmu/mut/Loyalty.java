@@ -1,15 +1,20 @@
 package edu.gmu.mut;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import edu.gmu.mut.Account;
 import edu.gmu.mut.Purchase;
+import edu.gmu.mut.StoredDiscounts;
 
 public class Loyalty {
 	
 	private int VIPPurchaseCount;
 	private int VIPAgeInDays;
+	private ArrayList discounts;
+	private BigDecimal loyaltyDiscount;
+	private BigDecimal timedDiscount;
 
 	/**
 	 * Instantiates a new loyalty object.
@@ -17,17 +22,53 @@ public class Loyalty {
 	public Loyalty(int VIPPurchaseCount, int VIPAgeInDays){
 		this.VIPPurchaseCount = VIPPurchaseCount;
 		this.VIPAgeInDays = VIPAgeInDays;
+		this.discounts = loadDiscounts().getDiscounts();
 	}
 	
-	public BigDecimal getDiscount(Account acct, Calendar startDate, Calendar endDate) {
-		BigDecimal discount = getDiscountIteration1(acct, startDate, endDate);
+	private StoredDiscounts loadDiscounts() {
+		StoredDiscounts sd = new StoredDiscounts();
+		sd.add(new It2Discount1());
+		sd.add(new It2Discount2());
+		sd.add(new It2Discount3());
+		sd.add(new It2Discount4());
+		return sd;
+	}
+
+	public BigDecimal getDiscount(Account acct, Calendar today) {
+
+		BigDecimal discount = new BigDecimal(0);
+		
+		loyaltyDiscount = getLoyaltyDiscount(acct);
+		timedDiscount = getTimedDiscount(acct, today);
+		
+		discount = loyaltyDiscount.add(timedDiscount);
+		
 		if (acct.isVIP(VIPPurchaseCount, VIPAgeInDays)) {
-			discount = discount.multiply(new BigDecimal(1.05));
+			discount = discount.add(new BigDecimal(5));
 		}
 		return discount;
 	}
 
-	public BigDecimal getDiscountIteration1(Account acct, Calendar startDate, Calendar endDate) {
+	private BigDecimal getTimedDiscount(Account acct, Calendar today) {
+
+		BigDecimal thisDiscount = new BigDecimal(0);
+		
+		for (int i = 0; i < discounts.size(); i++) {
+			Discount d = (Discount) discounts.get(i);
+			if (d.getStartDate().before(today) && d.getEndDate().after(today)) {
+				thisDiscount = d.getDiscount(acct);
+				if (! thisDiscount.equals(new BigDecimal(0))) {
+					if (! d.isAdditionalDiscount()) {
+						loyaltyDiscount = new BigDecimal(0);
+					}
+				}
+				return thisDiscount;
+			}
+		}
+		return thisDiscount;
+	}
+
+	private BigDecimal getLoyaltyDiscount(Account acct) {
 		Calendar today = Calendar.getInstance();
 		Calendar oneYearAgo = Calendar.getInstance();
 		oneYearAgo.add(Calendar.YEAR, -1);
