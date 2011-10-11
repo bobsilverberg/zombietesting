@@ -8,7 +8,26 @@ import edu.gmu.mut.Purchase;
 
 public class Loyalty {
 	
-	public static BigDecimal getDiscount(Account acct, Calendar startDate, Calendar endDate) {
+	private int VIPPurchaseCount;
+	private int VIPAgeInDays;
+
+	/**
+	 * Instantiates a new loyalty object.
+	 */
+	public Loyalty(int VIPPurchaseCount, int VIPAgeInDays){
+		this.VIPPurchaseCount = VIPPurchaseCount;
+		this.VIPAgeInDays = VIPAgeInDays;
+	}
+	
+	public BigDecimal getDiscount(Account acct, Calendar startDate, Calendar endDate) {
+		BigDecimal discount = getDiscountIteration1(acct, startDate, endDate);
+		if (acct.isVIP(VIPPurchaseCount, VIPAgeInDays)) {
+			discount = discount.multiply(new BigDecimal(1.05));
+		}
+		return discount;
+	}
+
+	public BigDecimal getDiscountIteration1(Account acct, Calendar startDate, Calendar endDate) {
 		Calendar today = Calendar.getInstance();
 		Calendar oneYearAgo = Calendar.getInstance();
 		oneYearAgo.add(Calendar.YEAR, -1);
@@ -32,19 +51,19 @@ public class Loyalty {
 		
 	}
 
-	private static boolean isNewAccountWithNoPurchases(Account acct) {
+	private boolean isNewAccountWithNoPurchases(Account acct) {
 		return isNewAccount(acct) && !acct.hasPurchases();
 	}
 	
-	private static boolean isOldAccountWithNoPurchasesAndRecentVisit(Account acct) {
+	private boolean isOldAccountWithNoPurchasesAndRecentVisit(Account acct) {
 		return !isNewAccount(acct) && !acct.hasPurchases() && isRecentVisitor(acct);
 	}
 
-	private static boolean isNewAccount(Account acct) {
+	private boolean isNewAccount(Account acct) {
 		return acct.isNewAccount(30);
 	}
 
-	private static boolean isRecentVisitor(Account acct) {
+	private boolean isRecentVisitor(Account acct) {
 		return acct.isRecentVisitor(7);
 	}
 	
