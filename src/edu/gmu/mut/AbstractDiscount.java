@@ -25,4 +25,8 @@ abstract class AbstractDiscount implements Discount {
 	
 	public abstract BigDecimal getDiscount(Account acct);
 
+	public boolean isAdditionalDiscount() {
+		return true;
+	}
+
 }

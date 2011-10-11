@@ -11,4 +11,6 @@ interface Discount {
 
 	public abstract BigDecimal getDiscount(Account acct);
 
+	public abstract boolean isAdditionalDiscount();
+	
 }

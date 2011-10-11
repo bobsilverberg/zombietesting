@@ -18,4 +18,8 @@ public class It2Discount3 extends AbstractDiscount {
 		return discount;
 	}
 
+	public boolean isAdditionalDiscount() {
+		return false;
+	}
+
 }
