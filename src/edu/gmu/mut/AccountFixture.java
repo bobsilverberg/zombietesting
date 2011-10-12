@@ -131,6 +131,23 @@ public class AccountFixture {
 		return Account.newInstance("test", "test@if.io", regDate, visitDate, purchases );
 	}
 
+	public static Account getAccountWithPurchasesTotalling10OverTwoGenres() {
+		Calendar regDate = Calendar.getInstance();
+		Calendar visitDate = Calendar.getInstance();
+		regDate.add(Calendar.YEAR, -1);
+		PurchaseHistory purchases = PurchaseHistoryFixture.getPurchasesTotalling10OverTwoGenres() ;		
+		return Account.newInstance("test", "test@if.io", regDate, visitDate, purchases );
+	}
+
+	public static Account getAccountWithRockABillyPurchase() {
+		Calendar regDate = Calendar.getInstance();
+		Calendar visitDate = Calendar.getInstance();
+		regDate.add(Calendar.YEAR, -1);
+		PurchaseHistory purchases = PurchaseHistoryFixture.getRockABillyPurchase() ;		
+		return Account.newInstance("test", "test@if.io", regDate, visitDate, purchases );
+	}
+
+
 	public static Account getBasicAccount(){
 		Calendar regDate;
 		Calendar visitDate;
@@ -154,6 +171,7 @@ public class AccountFixture {
 		visitDate = new GregorianCalendar(2011,Calendar.MARCH,1);
 		return Account.newInstance("test", "test@if.io", regDate, visitDate, purchases );
 	}
+
 
 
 

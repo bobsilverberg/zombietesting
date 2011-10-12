@@ -19,21 +19,12 @@ public class Loyalty {
 	/**
 	 * Instantiates a new loyalty object.
 	 */
-	public Loyalty(int VIPPurchaseCount, int VIPAgeInDays){
+	public Loyalty(int VIPPurchaseCount, int VIPAgeInDays, StoredDiscounts sd){
 		this.VIPPurchaseCount = VIPPurchaseCount;
 		this.VIPAgeInDays = VIPAgeInDays;
-		this.discounts = loadDiscounts().getDiscounts();
+		this.discounts = sd.getDiscounts();
 	}
 	
-	private StoredDiscounts loadDiscounts() {
-		StoredDiscounts sd = new StoredDiscounts();
-		sd.add(new It2Discount1());
-		sd.add(new It2Discount2());
-		sd.add(new It2Discount3());
-		sd.add(new It2Discount4());
-		return sd;
-	}
-
 	public BigDecimal getDiscount(Account acct, Calendar today) {
 
 		BigDecimal discount = new BigDecimal(0);

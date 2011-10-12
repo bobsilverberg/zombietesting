@@ -14,10 +14,16 @@ import org.junit.Test;
 public class LoyaltyTest {
 
 	private Loyalty loyalty;
+	private StoredDiscounts sd;
 	
 	@Before
     public void setUp() {
-		this.loyalty = new Loyalty(25,365);
+		sd = new StoredDiscounts();
+		sd.add(new JazzOrReggaeTimedDiscount());
+		sd.add(new OneDay10PctTimedDiscount());
+		sd.add(new OneDay25PctOverrideTimedDiscount());
+		sd.add(new OneDayRockABillyTimedDiscount());
+		this.loyalty = new Loyalty(25,365,sd);
     }
 	
 	@Test
@@ -100,19 +106,75 @@ public class LoyaltyTest {
 	@Test
 	public void VIPcustomerWhoSpentBetween25And50InPreviousYearShouldGet10PctDiscount() {
 		Account acct = AccountFixture.get30DollarsInPreviousYearSpenderAccount();
-		this.loyalty = new Loyalty(1,5);
+		this.loyalty = new Loyalty(1,5, sd);
 		BigDecimal discount = loyalty.getDiscount(acct, Calendar.getInstance());
 		assertEquals("Discount", new BigDecimal(10), discount);
 	}
 	
 	@Test
-	public void VIPcustomerWhoSpentBetween25And50InPreviousYearAndQualifiesForDisc1ShouldGet15PctDiscount() {
-		Account acct = AccountFixture.get30DollarsInPreviousYearSpenderAccount();
-		this.loyalty = new Loyalty(1,5);
-		BigDecimal discount = loyalty.getDiscount(acct, Calendar.getInstance());
+	public void customerWhoQualifiesForTwoGenreTimedDiscountShouldGetTimedDiscountPlusLoyaltyDiscount() {
+		Account acct = AccountFixture.getAccountWithPurchasesTotalling10OverTwoGenres();
+		this.loyalty = new Loyalty(25,365, sd);
+		BigDecimal discount = loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,16));
+		assertEquals("Discount", new BigDecimal(10), discount);
+	}
+	
+	@Test
+	public void customerWhoQualifiesForTimedDiscountButIsOutsideDatesShouldGetOnlyLoyaltyDiscount() {
+		Account acct = AccountFixture.getAccountWithPurchasesTotalling10OverTwoGenres();
+		this.loyalty = new Loyalty(25,365, sd);
+		BigDecimal discount = loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,25));
+		assertEquals("Discount", new BigDecimal(5), discount);
+	}
+	
+	@Test
+	public void VIPcustomerWhoQualifiesForTimedDiscountShouldGetTimedDiscountPlusLoyaltyDiscountPlusVIPDiscount() {
+		Account acct = AccountFixture.getAccountWithPurchasesTotalling10OverTwoGenres();
+		this.loyalty = new Loyalty(1,1, sd);
+		BigDecimal discount = loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,16));
 		assertEquals("Discount", new BigDecimal(15), discount);
 	}
 	
+	@Test
+	public void customerWhoQualifiesForOneDay10PctTimedDiscountShouldGetTimedDiscountPlusLoyaltyDiscount() {
+		Account acct = AccountFixture.getAccountWithPurchasesTotalling10OverTwoGenres();
+		this.loyalty = new Loyalty(25,365, sd);
+		BigDecimal discount = loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,23));
+		assertEquals("Discount", new BigDecimal(15), discount);
+	}
 	
+	@Test
+	public void customerWhoQualifiesForOneDay10PctTimedDiscountButIsOutsideDateShouldGetOnlyLoyaltyDiscount() {
+		Account acct = AccountFixture.getAccountWithPurchasesTotalling10OverTwoGenres();
+		this.loyalty = new Loyalty(25,365, sd);
+		BigDecimal discount = loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.SEPTEMBER,25));
+		assertEquals("Discount", new BigDecimal(5), discount);
+	}
+	
+	@Test
+	public void customerWhoQualifiesForOverrideTimedDiscountShouldGetOnlyTimedDiscount() {
+		Account acct = AccountFixture.getAccountWithPurchasesTotalling10OverTwoGenres();
+		this.loyalty = new Loyalty(25,365, sd);
+		BigDecimal discount = loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.OCTOBER,1));
+		assertEquals("Discount", new BigDecimal(25), discount);
+	}
+	
+	@Test
+	public void VIPcustomerWhoQualifiesForOverrideTimedDiscountShouldGetTimedDiscountPlusVIPDiscount() {
+		Account acct = AccountFixture.getAccountWithPurchasesTotalling10OverTwoGenres();
+		this.loyalty = new Loyalty(1,1, sd);
+		BigDecimal discount = loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.OCTOBER,1));
+		assertEquals("Discount", new BigDecimal(30), discount);
+	}
+	
+	@Test
+	public void customerWhoQualifiesForSingleGenreTimedDiscountShouldGetTimedDiscountPlusLoyaltyDiscount() {
+		Account acct = AccountFixture.getAccountWithRockABillyPurchase();
+		this.loyalty = new Loyalty(25,365, sd);
+		BigDecimal discount = loyalty.getDiscount(acct, new GregorianCalendar(2011,Calendar.JANUARY,15));
+		assertEquals("Discount", new BigDecimal(15), discount);
+	}
 }
+
+
 

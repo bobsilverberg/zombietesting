@@ -139,5 +139,27 @@ public class PurchaseHistoryFixture {
 		purchases.add(p4);
 		return purchases;
 	}
+
+	public static PurchaseHistory getPurchasesTotalling10OverTwoGenres() {
+		PurchaseHistory purchases = new PurchaseHistory();
+		Calendar pd1 = Calendar.getInstance();
+		pd1.add(Calendar.DATE, -1);
+		Purchase p1 = new Purchase("Jazz", new BigDecimal(7), pd1);
+		purchases.add(p1);
+		Calendar pd2 = Calendar.getInstance();
+		pd2.add(Calendar.MONTH, -6);
+		Purchase p2 = new Purchase("Reggae", new BigDecimal(3), pd2);
+		purchases.add(p2);
+		return purchases;
+	}
+
+	public static PurchaseHistory getRockABillyPurchase() {
+		PurchaseHistory purchases = new PurchaseHistory();
+		Calendar pd1 = Calendar.getInstance();
+		pd1.add(Calendar.DATE, -1);
+		Purchase p1 = new Purchase("Rock-A-Billy", new BigDecimal(7), pd1);
+		purchases.add(p1);
+		return purchases;
+	}
 	
 } //end class

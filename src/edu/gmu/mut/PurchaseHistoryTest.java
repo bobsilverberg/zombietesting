@@ -53,4 +53,12 @@ public class PurchaseHistoryTest {
 		assertEquals("Purchase Count", 1, ph.getPurchaseCount(startDate, endDate));
 	}
 	
+	@Test
+	public void getTotalAmountForGenresReturnsTotalOfAllPurchasesForSpecifiedGenres() {
+		PurchaseHistory ph = PurchaseHistoryFixture.getPurchasesTotalling10OverTwoGenres();
+		String[] genres = {"Jazz", "Reggae"}; 
+		assertEquals("Total Amount Purchased", new BigDecimal(10), ph.getTotalAmountForGenres(genres));
+	}
+
 }
+

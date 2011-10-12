@@ -152,6 +152,11 @@ public class Account {
 		return purchaseHistory.getTotalAmount(startDate, endDate).compareTo(amount);
 	}
 	
+	public BigDecimal getTotalAmountForGenres(String[] genres) {
+		
+		return purchaseHistory.getTotalAmountForGenres(genres);
+	}
+	
 	/**
 	 * Instantiates a new account.
 	 */

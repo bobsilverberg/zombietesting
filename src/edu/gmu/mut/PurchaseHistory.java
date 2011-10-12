@@ -79,4 +79,20 @@ public class PurchaseHistory {
 		this.purchases = new ArrayList();
 	}
 
+	public BigDecimal getTotalAmountForGenres(String[] genres) {
+		
+		BigDecimal total = new BigDecimal(0);
+		
+		for (int i = 0; i < purchases.size(); i++) {
+			Purchase p = (Purchase) purchases.get(i);
+			for (int j =0; j < genres.length; j++) {
+				if (p.getGenre() == genres[j]) {
+					total = total.add(p.getPrice());
+				}
+			}
+		}
+		return total;
+	}
+
 }
+
